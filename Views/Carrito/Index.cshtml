@@ -1,0 +1,81 @@
+@model List<Producto>
+@{
+  ViewData["Title"] = "Carrito";
+  ViewData["SubTitle"] = "Listado";
+  bool mostrarModal = (TempData["CarritoVacio"] as bool?) ?? false;
+}
+
+<h2 class="text-center mb-3">@ViewData["Title"] <small class="text-muted fs-5">@ViewData["SubTitle"]</small></h2>
+<div class="text-end">
+  <p class="fw-bold mb-2">Total: $@Model.Sum(producto => producto.Precio)</p>
+</div>
+<div class="row-small d-flex justify-content-between mb-3">
+  <div>
+    <a class="btn btn-secondary" role="button" asp-action="SeguirComprando" asp-controller="Carrito">
+      Seguir Comprando
+    </a>
+  </div>
+  <div>
+    <a class="btn btn-danger" role="button" asp-action="LimpiarCarrito" asp-controller="Carrito">
+      Vaciar Carrito
+    </a>
+  </div>
+  <div>
+    <a class="btn btn-primary" role="button" asp-action="FinalizarCompra" asp-controller="Carrito">
+      Finalizar Compra
+    </a>
+  </div>
+</div>
+<div class="row small mb-3">
+  <div class="col text-end">
+    Mostrando @Model.Count() elementos
+  </div>
+</div>
+
+@if (Model.Count() > 0)
+{
+  <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
+    @foreach (var item in Model)
+    {
+      <div class="col">
+        <partial name="_CardPartial" model="item"/>
+      </div>
+    }
+  </div>
+}
+else
+{
+  <div class="mt-5">
+    <div class="alert alert-warning" role="alert">
+      No hay elementos en el carrito.
+    </div>
+  </div>
+}
+
+@if (mostrarModal)
+{
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      var myModal = new bootstrap.Modal(document.getElementById('carritoVacioModal'));
+      myModal.show();
+    });
+  </script>
+}
+
+<!-- Modal de alerta -->
+<div class="modal fade" id="carritoVacioModal" tabindex="-1" aria-labelledby="carritoVacioModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="carritoVacioModalLabel">Carrito Vacío</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+      </div>
+      <div class="modal-body">
+        No tienes productos en tu carrito. Agrega algunos productos para finalizar la compra.
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Entendido</button>
+      </div>
+    </div>
+  </div>
+</div>
