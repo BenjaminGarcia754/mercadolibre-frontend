@@ -10,7 +10,7 @@ public class CarritoController(CarritoClientService carrito, PedidosClientServic
 {
     public async Task<IActionResult> Index()
     {
-        List<Producto>? lista = [];
+        List<ProductoA>? lista = [];
         try
         {
             lista = await carrito.ObtenerCarrito();

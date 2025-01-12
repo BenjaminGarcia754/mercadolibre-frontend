@@ -10,7 +10,7 @@ public class ComprarController(CarritoClientService carrito, ProductosClientServ
 {
     public async Task<IActionResult> Index(string? s)
     {
-        List<Producto>? lista = [];
+        List<ProductoA>? lista = [];
         try
         {
             lista = await productos.GetAsync(s);

@@ -10,5 +10,5 @@ public class ProductoCategoria
 
     public string? Nombre { get; set; }
 
-    public Producto? Producto { get; set; }
+    public ProductoA? Producto { get; set; }
 }

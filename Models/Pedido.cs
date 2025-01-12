@@ -18,7 +18,7 @@ public class Pedido
     public required int? ProductoId { get; set; }
 
     [Display(Name = "Producto")]
-    public Producto? Producto { get; set; }
+    public ProductoA? Producto { get; set; }
 
     [DisplayFormat(DataFormatString = "{0:C}", ApplyFormatInEditMode = false)]
     [Display(Name = "Total a pagar")]

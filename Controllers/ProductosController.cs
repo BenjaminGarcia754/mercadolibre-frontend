@@ -12,7 +12,7 @@ public class ProductosController(ProductosClientService productos, CategoriasCli
     [Authorize(Roles = "Administrador")]
     public async Task<IActionResult> Index(string s)
     {
-        List<Producto>? lista = [];
+        List<ProductoA>? lista = [];
         try
         {
             lista = await productos.GetAsync(s);
@@ -36,7 +36,7 @@ public class ProductosController(ProductosClientService productos, CategoriasCli
     [Authorize(Roles = "Administrador, Usuario")]
     public async Task<IActionResult> Detalle(int id)
     {
-        Producto? item = null;
+        ProductoA? item = null;
         ViewBag.Url = configuration["UrlWebAPI"];
         try
         {
@@ -62,7 +62,7 @@ public class ProductosController(ProductosClientService productos, CategoriasCli
 
     [HttpPost]
     [Authorize(Roles = "Administrador")]
-    public async Task<IActionResult> CrearAsync(Producto itemToCreate)
+    public async Task<IActionResult> CrearAsync(ProductoA itemToCreate)
     {
         ViewBag.Url = configuration["UrlWebAPI"];
         if (ModelState.IsValid)
@@ -88,7 +88,7 @@ public class ProductosController(ProductosClientService productos, CategoriasCli
     [Authorize(Roles = "Administrador")]
     public async Task<IActionResult> EditarAsync(int id)
     {
-        Producto? itemToEdit = null;
+        ProductoA? itemToEdit = null;
         ViewBag.Url = configuration["UrlWebAPI"];
         try
         {
@@ -111,7 +111,7 @@ public class ProductosController(ProductosClientService productos, CategoriasCli
 
     [HttpPost]
     [Authorize(Roles = "Administrador")]
-    public async Task<IActionResult> EditarAsync(int id, Producto itemToEdit)
+    public async Task<IActionResult> EditarAsync(int id, ProductoA itemToEdit)
     {
         if (id != itemToEdit.ProductoId) return NotFound();
 
@@ -140,7 +140,7 @@ public class ProductosController(ProductosClientService productos, CategoriasCli
     public async Task<IActionResult> Eliminar(int id, bool? showError = false)
     {
         ViewBag.Url = configuration["UrlWebAPI"];
-        Producto? itemToDelete = null;
+        ProductoA? itemToDelete = null;
         try
         {
             itemToDelete = await productos.GetAsync(id);
@@ -200,7 +200,7 @@ public class ProductosController(ProductosClientService productos, CategoriasCli
     [Authorize(Roles = "Administrador")]
     public async Task<IActionResult> Categorias(int id)
     {
-        Producto? itemToView = null;
+        ProductoA? itemToView = null;
         try
         {
             itemToView = await productos.GetAsync(id);
@@ -227,7 +227,7 @@ public class ProductosController(ProductosClientService productos, CategoriasCli
         ProductoCategoria? itemToView = null;
         try
         {
-            Producto? producto = await productos.GetAsync(id);
+            ProductoA? producto = await productos.GetAsync(id);
             if (producto == null)
             {
                 return NotFound();
@@ -250,7 +250,7 @@ public class ProductosController(ProductosClientService productos, CategoriasCli
     [Authorize(Roles = "Administrador")]
     public async Task<IActionResult> CategoriasAgregar(int id, int categoriaid)
     {
-        Producto? producto = null;
+        ProductoA? producto = null;
         if (ModelState.IsValid)
         {
             try
@@ -290,7 +290,7 @@ public class ProductosController(ProductosClientService productos, CategoriasCli
         ProductoCategoria? itemToView = null;
         try
         {
-            Producto? producto = await productos.GetAsync(id);
+            ProductoA? producto = await productos.GetAsync(id);
             if (producto == null)
             {
                 return NotFound();

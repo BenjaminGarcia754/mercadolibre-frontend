@@ -4,23 +4,23 @@ namespace frontendnet.Services;
 
 public class ProductosClientService(HttpClient client)
 {
-    public async Task <List<Producto>?> GetAsync(string? search)
+    public async Task <List<ProductoA>?> GetAsync(string? search)
     {
-        return await client.GetFromJsonAsync<List<Producto>>($"api/productos?s={search}");
+        return await client.GetFromJsonAsync<List<ProductoA>>($"api/productos?s={search}");
     }
 
-    public async Task<Producto?> GetAsync(int id)
+    public async Task<ProductoA?> GetAsync(int id)
     {
-        return await client.GetFromJsonAsync<Producto>($"api/productos/{id}");
+        return await client.GetFromJsonAsync<ProductoA>($"api/productos/{id}");
     }
 
-    public async Task PostAsync(Producto producto)
+    public async Task PostAsync(ProductoA producto)
     {
         var response = await client.PostAsJsonAsync($"api/productos", producto);
         response.EnsureSuccessStatusCode();
     }
 
-    public async Task PutAsync(Producto producto)
+    public async Task PutAsync(ProductoA producto)
     {
         var response = await client.PutAsJsonAsync($"api/productos/{producto.ProductoId}", producto);
         response.EnsureSuccessStatusCode();

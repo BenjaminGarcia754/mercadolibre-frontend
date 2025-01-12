@@ -6,23 +6,41 @@ public class PedidosClientService(CarritoClientService carrito, HttpClient clien
 {
     public async Task PostAsync(string email)
     {
-        //var carritoService = HttpContext.RequestServices.GetService<CarritoClientService>();
         var productos = await carrito.ObtenerCarrito();
+        List<CarritoDTO> listaCarritoDTO = new List<CarritoDTO>();
+        CarritoDTO carritoDTO = new CarritoDTO();
+        
+        foreach (var item in productos)
+        {
+            var prod = new Producto();
+            prod.id = (int)item.ProductoId;
+            prod.titulo = item.ProductoId.ToString();
+            prod.precio = item.Precio;
+            prod.stock = 0;
+            prod.archivoid = (int)item.ProductoId;
+            prod.descripcion = item.Descripcion;
+            carritoDTO.Producto = prod;
+            carritoDTO.Cantidad = 1;
+            carritoDTO.correousuario = email;
 
+            listaCarritoDTO.Add(carritoDTO);
+        }
+        //var prod = new Producto();
         if (productos == null)
         {
             throw new InvalidOperationException("No products found in the cart.");
         }
-
+        /* 
         var pedido = productos.Select(producto => new Pedido
         {
             Email = email,
             ProductoId = producto.ProductoId,
         }).ToList();
+        */
 
-        PedidosCarrito pedidos = new PedidosCarrito(pedido);
+        //PedidosCarrito pedidos = new PedidosCarrito(pedido);
 
-        var response = await client.PostAsJsonAsync($"api/pedidos", pedidos);
+        var response = await client.PostAsJsonAsync($"api/compra", listaCarritoDTO);
 
         if (response.IsSuccessStatusCode)
         {
@@ -31,6 +49,8 @@ public class PedidosClientService(CarritoClientService carrito, HttpClient clien
         
         response.EnsureSuccessStatusCode();
     }
+
+
 
     public async Task<List<Pedido>?> GetAsync()
     {

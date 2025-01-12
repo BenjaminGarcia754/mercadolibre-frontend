@@ -13,14 +13,14 @@ public class CarritoClientService
         _httpContextAccessor = httpContextAccessor;
     }
 
-    public Task<List<Producto>> ObtenerCarrito()
+    public Task<List<ProductoA>> ObtenerCarrito()
     {
         var session = _httpContextAccessor.HttpContext?.Session;
         var carritoJson = session?.GetString(SessionKeyCarrito);
-        return Task.FromResult(carritoJson == null ? new List<Producto>() : JsonSerializer.Deserialize<List<Producto>>(carritoJson)!);
+        return Task.FromResult(carritoJson == null ? new List<ProductoA>() : JsonSerializer.Deserialize<List<ProductoA>>(carritoJson)!);
     }
 
-    public Task GuardarCarrito(List<Producto> carrito)
+    public Task GuardarCarrito(List<ProductoA> carrito)
     {
         var session = _httpContextAccessor.HttpContext?.Session;
         var carritoJson = JsonSerializer.Serialize(carrito);
@@ -28,9 +28,9 @@ public class CarritoClientService
         return Task.CompletedTask;
     }
 
-    public async Task AgregarAlCarrito(Producto producto)
+    public async Task AgregarAlCarrito(ProductoA producto)
     {
-        var carrito = await ObtenerCarrito() ?? new List<Producto>();
+        var carrito = await ObtenerCarrito() ?? new List<ProductoA>();
         carrito.Add(producto);
         await GuardarCarrito(carrito);
     }
@@ -44,7 +44,7 @@ public class CarritoClientService
 
     public async Task EliminarDelCarrito(int id)
     {
-        var carrito = await ObtenerCarrito() ?? new List<Producto>();
+        var carrito = await ObtenerCarrito() ?? new List<ProductoA>();
         carrito.RemoveAll(p => p.ProductoId == id);
         await GuardarCarrito(carrito);
     }
