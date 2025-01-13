@@ -24,7 +24,7 @@ public class ClientesController(ClientesClientService clientesService) : Control
                 ViewData["Message"] = "¡La cuenta se creó exitosamente!";
                 ViewData["Success"] = true;
             }
-            catch (HttpRequestException ex)
+            catch (HttpRequestException)
             {
                 ViewData["Message"] = "Hubo un error al crear la cuenta. Inténtalo de nuevo.";
                 ViewData["Success"] = false;

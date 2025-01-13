@@ -6,7 +6,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllersWithViews();
 
-var UrlWebAPI = "http://localhost:3000";
+var UrlWebAPI = builder.Configuration["URLWebAPI"];
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddTransient<EnviaBearerDelegatingHandler>();
 builder.Services.AddTransient<RefrescaTokenDelegatingHandler>();
@@ -36,9 +36,6 @@ builder.Services.AddHttpClient<BitacoraClientService>(httpClient => { httpClient
     .AddHttpMessageHandler<EnviaBearerDelegatingHandler>()
     .AddHttpMessageHandler<RefrescaTokenDelegatingHandler>();
 builder.Services.AddHttpClient<ClientesClientService>(httpClient => { httpClient.BaseAddress = new Uri(UrlWebAPI!); } );
-
-
-builder.Services.AddHttpClient<UsuarioClientService>(httpClient => { httpClient.BaseAddress = new Uri(UrlWebAPI!); });
 
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie(options =>

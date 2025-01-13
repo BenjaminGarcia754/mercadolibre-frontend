@@ -14,9 +14,9 @@ public class PedidosClientService(CarritoClientService carrito, HttpClient clien
         {
             var prod = new Producto();
             prod.id = (int)item.ProductoId;
-            prod.titulo = item.ProductoId.ToString();
-            prod.precio = item.Precio;
+            prod.titulo = item.Titulo;
             prod.stock = 0;
+            prod.precio = item.Precio;
             prod.archivoid = (int)item.ProductoId;
             prod.descripcion = item.Descripcion;
             carritoDTO.Producto = prod;
@@ -25,26 +25,20 @@ public class PedidosClientService(CarritoClientService carrito, HttpClient clien
 
             listaCarritoDTO.Add(carritoDTO);
         }
-        //var prod = new Producto();
         if (productos == null)
         {
-            throw new InvalidOperationException("No products found in the cart.");
+            throw new InvalidOperationException("Carrito Vacio.");
         }
-        /* 
-        var pedido = productos.Select(producto => new Pedido
-        {
-            Email = email,
-            ProductoId = producto.ProductoId,
-        }).ToList();
-        */
-
-        //PedidosCarrito pedidos = new PedidosCarrito(pedido);
 
         var response = await client.PostAsJsonAsync($"api/compra", listaCarritoDTO);
 
         if (response.IsSuccessStatusCode)
         {
             await carrito.LimpiarCarrito();
+        }
+        else
+        {
+            throw new InvalidOperationException("Error al realizar la compra.");
         }
         
         response.EnsureSuccessStatusCode();
